@@ -1,0 +1,30 @@
+---
+- name: Installa dipendenze
+  apt:
+    name: "{{ packages }}"
+    state: latest
+    update_cache: yes
+
+
+- name: Scarica minikube
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /usr/local/bin/minikube
+    mode: '0755'
+
+- name: Scarica kubectl
+  command: "curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt"
+  register: kubectl_version_output
+
+- name: Scarica kubectl
+  get_url:
+    url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version_output.stdout }}/bin/linux/amd64/kubectl"
+    dest: /usr/local/bin/kubectl
+    mode: '0755'
+
+- name: Avvia minikube
+  command: minikube start --driver=docker
+  become: false
+
+- name: Change Keyboard layout to it
+  command: loadkeys it

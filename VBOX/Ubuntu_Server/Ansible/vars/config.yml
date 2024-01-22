@@ -1,0 +1,37 @@
+###########################################
+# GLOBAL
+###########################################
+vagrant_user: "vagrant"
+
+###########################################
+# DOCKER VARIABLES
+###########################################
+install_docker: True # se settata a true docker verrà installato , se non si vuole installare docker settare su false
+
+###########################################
+# KUBERNETES VARIABLES
+###########################################
+install_kubernetes: false # se settata a true kubernetes verrà installato , se non si vuole installare kubernetes settare su false
+
+###########################################
+# PORTAINER VARIABLES
+###########################################
+install_portainer: True
+
+portainer_container_name: portainer
+portainer_container_image: portainer/portainer-ce
+portainer_container_ports: 9000:9000
+portainer_container_config_volume: /var/run/docker.sock:/var/run/docker.sock
+portainer_container_data_volume: /home/vagrant/portainer:/data
+
+###########################################
+# MINIKUBE VARIABLES
+###########################################
+install_minikube: True
+
+packages:
+  - curl
+  - apt-transport-https
+  - conntrack
+  - wget
+  - net-tools

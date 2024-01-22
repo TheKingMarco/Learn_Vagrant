@@ -8,29 +8,23 @@
 Vagrant.configure("2") do |config|
 
     config.ssh.insert_key = true
-    #config.ssh.private_key_path= "ssh-key_vm-avanade-marco.pem"
 
     config.vm.define "ubuntu" do |ubuntu|
-        ubuntu.vm.box = "ubuntu/bionic64"
+        ubuntu.vm.box = "bento/ubuntu-22.04"
         ubuntu.vm.hostname = "ubuntu"
         ubuntu.vm.network "public_network" #, ip: 123.34.123.34
     end
 
-    config.vm.disk :disk, size: "20GB", primary: true
-
     config.vm.provider "virtualbox" do |vb|
-      vb.name = "ubuntu_vm"
+      vb.name = "ubuntu_server_22-04"
       vb.gui = true
       vb.memory = 4096
       vb.cpus = 2
       vb.check_guest_additions = false
     end
   
-    config.vm.provision "shell", path: "install_ansible.sh"
-    #config.vm.provision "shell", path: "../../Scripts/install_retropie.sh"
-  
     config.vm.provision "ansible_local" do |ansible|
-      ansible.playbook = "playbook.yml"
+      ansible.playbook = "Ansible/playbooks/configure_ubuntu_server.yml"
     end  
 
 end
