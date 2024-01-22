@@ -35,3 +35,4 @@ packages:
   - conntrack
   - wget
   - net-tools
+  - git
