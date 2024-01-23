@@ -23,4 +23,4 @@
     name: "{{ vagrant_user }}"
     groups: docker
     append: yes
-  become: yes
+  become: true

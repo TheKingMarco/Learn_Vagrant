@@ -1,0 +1,6 @@
+mysql:
+  mysqlPassword: "Complicatissima1!"
+  mysqlUser: "mattermost"
+
+ingress:
+  enabled: true

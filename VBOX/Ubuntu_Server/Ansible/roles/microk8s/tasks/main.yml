@@ -13,7 +13,7 @@
     name: "{{ vagrant_user }}"
     groups: microk8s
     append: yes
-  become: yes
+  become: true
 - name: Giving vagrant user a permission to ~/.kube directory
   file:
     path: ~/.kube

@@ -3,10 +3,11 @@
   hosts: all
   become: True
   roles:
-   - { role: ../roles/docker, when: install_docker | bool, tags: docker }
-   - { role: ../roles/portainer, when: install_portainer | bool, tags: portainer }
-   - { role: ../roles/kubernetes, when: install_kubernetes | bool, tags: kubernetes }
-   - { role: ../roles/minikube, when: install_minikube | bool, tags: minikube }
+   #- { role: ../roles/docker, when: install_docker | bool, tags: docker }
+   #- { role: ../roles/portainer, when: (install_docker | bool and install_portainer | bool), tags: portainer }
+   #- { role: ../roles/microk8s, when: install_microk8s | bool, tags: microk8s }
+   #- { role: ../roles/minikube, when: install_minikube | bool, tags: minikube }
+   - { role: ../roles/helm, when: install_helm | bool, tags: helm }
   tags: configure
   vars_files:
    - ../vars/config.yml

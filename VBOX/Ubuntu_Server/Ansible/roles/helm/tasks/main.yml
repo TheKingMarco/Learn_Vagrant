@@ -1,0 +1,41 @@
+---
+- name: Install collection kubernetes.core
+  community.general.ansible_galaxy_install:
+    type: collection
+    name: kubernetes.core
+
+- name: Create directories recursively
+  ansible.builtin.file:
+    path: "{{ path_helm_installation }}"
+    state: directory
+    recurse: yes
+
+- name: Scarica helm
+  get_url:
+    url: "{{ get_helm_url }}"
+    dest: "{{ path_helm_installation }}/get_helm.sh"
+    mode: '0700'
+
+- name: install helm
+  shell: "{{ path_helm_installation }}/get_helm.sh"
+
+###################################################
+# EXECUTE HELM CHARTS
+###################################################
+
+- name: copy file
+  copy:
+    src: "files/"
+    dest: "{{ path_helm_installation }}/"
+
+- name: Deploy Helm Charts
+  kubernetes.core.helm:
+    name: "{{ item.name }}"
+    chart_repo_url: "{{ item.chart_repo_url }}"
+    chart_ref: "{{ item.chart_ref }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    release_namespace: "{{ item.release_namespace }}"
+    create_namespace: "{{ item.create_namespace }}"
+    state: "{{ item.state }}"
+    values_files: "{{ item.values_files }}"
+  loop: "{{ helm_charts }}"

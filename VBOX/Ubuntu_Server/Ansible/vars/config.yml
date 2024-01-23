@@ -2,6 +2,7 @@
 # GLOBAL
 ###########################################
 vagrant_user: "vagrant"
+path_home: /home/vagrant
 
 ###########################################
 # DOCKER VARIABLES
@@ -9,9 +10,9 @@ vagrant_user: "vagrant"
 install_docker: True # se settata a true docker verrà installato , se non si vuole installare docker settare su false
 
 ###########################################
-# KUBERNETES VARIABLES
+# MICRO8SK VARIABLES
 ###########################################
-install_kubernetes: false # se settata a true kubernetes verrà installato , se non si vuole installare kubernetes settare su false
+install_microk8s: false # se settata a true microk8s verrà installato , se non si vuole installare microk8s settare su false
 
 ###########################################
 # PORTAINER VARIABLES
@@ -27,7 +28,7 @@ portainer_container_data_volume: /home/vagrant/portainer:/data
 ###########################################
 # MINIKUBE VARIABLES
 ###########################################
-install_minikube: True
+install_minikube: True #se settata a true minikube verrà installato , se non si vuole installare minikube settare su false
 
 packages:
   - curl
@@ -36,3 +37,30 @@ packages:
   - wget
   - net-tools
   - git
+
+###########################################
+# HELM VARIABLES
+###########################################
+install_helm: True #se settata a true helm verrà installato , se non si vuole installare helm settare su false
+
+get_helm_url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+path_helm_installation: "{{ path_home }}/helm"
+kubeconfig_path: ~/.kube/config
+
+helm_charts:
+  - name: mattermost
+    chart_repo_url: "https://helm.mattermost.com"
+    chart_ref: "mattermost-team-edition"
+    release_namespace: mattermost
+    create_namespace: true
+    state: present
+    values_files:
+      - "{{ path_helm_installation }}/mattermost_values.yaml"
+  - name: ingress-nginx
+    chart_repo_url: "https://charts.bitnami.com/bitnami"
+    chart_ref: "nginx-ingress-controller"
+    release_namespace: ingress
+    create_namespace: true
+    state: present
+    values_files:
+      - "{{ path_helm_installation }}/ingress_nginx_values.yaml"
