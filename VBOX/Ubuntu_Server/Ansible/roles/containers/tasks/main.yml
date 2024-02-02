@@ -1,0 +1,19 @@
+---
+# - name: Pulling portainer docker image
+#   docker_image:
+#     name: "{{  }}"
+#     source: pull
+
+- name: Creating Containers
+  docker_container:
+    name: "{{ item.name }}"
+    image: "{{ item.image }}"
+    pull: "{{ item.pull }}"
+    detach: "{{ item.detach }}"
+    command: "{{ item.command }}"
+    security_opts: "{{ item.security_opts }}"
+    ports: "{{ item.ports }}"
+    volumes: "{{ item.volumes }}"
+    env: "{{ item.env }}"
+    state: "{{ item.state }}"
+  loop: "{{ containers }}"

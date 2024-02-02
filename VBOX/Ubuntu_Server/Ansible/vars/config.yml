@@ -61,6 +61,30 @@ helm_charts:
     chart_ref: "nginx-ingress-controller"
     release_namespace: ingress
     create_namespace: true
-    state: present
+    state: absent
     values_files:
       - "{{ path_helm_installation }}/ingress_nginx_values.yaml"
+
+###########################################
+# CONTAINERS VARIABLES
+###########################################
+install_containers: true
+
+containers:
+  - name: "photoprism"
+    image: "photoprism/photoprism"
+    pull: yes
+    detach: yes
+    command: ""
+    security_opts: 
+     - "seccomp=unconfined"
+     - "apparmor=unconfined"
+    ports:
+     - "0.0.0.0:2342:2342" 
+    volumes:
+     - "/photoprism/storage"
+     - "~/Pictures:/photoprism/originals"
+    env:
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+      PHOTOPRISM_ADMIN_PASSWORD: "Complicatissima1!"
+    state: started

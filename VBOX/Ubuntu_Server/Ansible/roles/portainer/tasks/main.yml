@@ -1,7 +1,4 @@
----    
-- name: Installing Docker Module for Python
-  pip:
-    name: docker
+---
 - name: Pulling portainer docker image
   docker_image:
     name: "{{ portainer_container_image }}"
@@ -15,4 +12,3 @@
       - "{{ portainer_container_config_volume }}"
       - "{{ portainer_container_data_volume }}"
     state: started
-    restart: yes

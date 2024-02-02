@@ -22,9 +22,16 @@
     dest: /usr/local/bin/kubectl
     mode: '0755'
 
+- name: Controlla che minikube sia attivo
+  become: false
+  command: minikube status
+  register: status
+  ignore_errors: true
+
 - name: Avvia minikube
   command: minikube start --driver=docker
   become: false
+  when: status.rc != 0
 
 - name: Change Keyboard layout to it
   command: loadkeys it
